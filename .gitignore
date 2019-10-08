@@ -4,7 +4,7 @@ config
 uploads
 deploy.yml
 hosts
-go-admin
+go-admin-en
 Makefile
 deploy.retry
 go.sum
