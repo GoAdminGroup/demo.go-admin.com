@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/GoAdminGroup/demo/ecommerce"
-	"github.com/GoAdminGroup/demo/login"
-	"github.com/GoAdminGroup/demo/pages"
+	"github.com/GoAdminGroup/demo_en/ecommerce"
+	"github.com/GoAdminGroup/demo_en/login"
+	"github.com/GoAdminGroup/demo_en/pages"
 	_ "github.com/chenhg5/go-admin/adapter/gin"
 	"github.com/chenhg5/go-admin/engine"
 	"github.com/chenhg5/go-admin/examples/datamodel"
@@ -29,7 +29,7 @@ func main() {
 
 	template.AddLoginComp(login.GetLoginComponent())
 
-	rootPath := "/data/www/go-admin"
+	rootPath := "/data/www/go-admin-en"
 	//rootPath = "."
 
 	if err := eng.AddConfigFromJson(rootPath + "/config.json").AddPlugins(adminPlugin).Use(r); err != nil {
