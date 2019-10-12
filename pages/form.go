@@ -9,13 +9,13 @@ import (
 	"github.com/chenhg5/go-admin/template/types/form"
 )
 
-func GetForm1Content() types.Panel {
+func GetForm1Content() (types.Panel, error) {
 
 	components := template2.Get(config.Get().Theme)
 
 	aform := components.Form().
-		SetGroupHeaders([]string{"input", "select"}).
-		SetGroupContent([][]types.Form{
+		SetTabHeaders([]string{"input", "select"}).
+		SetTabContents([][]types.FormField{
 			{
 				{
 					Field:    "name",
@@ -122,8 +122,10 @@ func GetForm1Content() types.Panel {
 							"value": "pear",
 						},
 					},
-					FilterFn: func(value types.RowModel) interface{} {
-						return []string{"pear"}
+					FieldDisplay: types.FieldDisplay{
+						Display: func(value types.FieldModel) interface{} {
+							return []string{"pear"}
+						},
 					},
 				},
 				{
@@ -172,8 +174,10 @@ func GetForm1Content() types.Panel {
 							"value": "red bull",
 						},
 					},
-					FilterFn: func(value types.RowModel) interface{} {
-						return []string{"beer"}
+					FieldDisplay: types.FieldDisplay{
+						Display: func(value types.FieldModel) interface{} {
+							return []string{"beer"}
+						},
 					},
 				},
 				{
@@ -199,8 +203,10 @@ func GetForm1Content() types.Panel {
 							"value": "3",
 						},
 					},
-					FilterFn: func(value types.RowModel) interface{} {
-						return []string{"two years"}
+					FieldDisplay: types.FieldDisplay{
+						Display: func(value types.FieldModel) interface{} {
+							return []string{"two years"}
+						},
 					},
 				},
 			},
@@ -216,5 +222,5 @@ func GetForm1Content() types.Panel {
 		Content:     aform,
 		Title:       "表单",
 		Description: "表单例子",
-	}
+	}, nil
 }
