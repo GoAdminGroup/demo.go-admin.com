@@ -4,12 +4,12 @@ import (
 	"github.com/GoAdminGroup/demo_en/ecommerce"
 	"github.com/GoAdminGroup/demo_en/login"
 	"github.com/GoAdminGroup/demo_en/pages"
-	_ "github.com/chenhg5/go-admin/adapter/gin"
-	"github.com/chenhg5/go-admin/engine"
-	"github.com/chenhg5/go-admin/examples/datamodel"
-	"github.com/chenhg5/go-admin/plugins/admin"
-	"github.com/chenhg5/go-admin/template"
-	"github.com/chenhg5/go-admin/template/types"
+	_ "github.com/GoAdminGroup/go-admin/adapter/gin"
+	"github.com/GoAdminGroup/go-admin/engine"
+	"github.com/GoAdminGroup/go-admin/examples/datamodel"
+	"github.com/GoAdminGroup/go-admin/plugins/admin"
+	"github.com/GoAdminGroup/go-admin/template"
+	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/gin-gonic/gin"
 )
 
