@@ -24,7 +24,7 @@ func GetForm1Content() (types.Panel, error) {
 					Default:  "jane",
 					Editable: true,
 					FormType: form.Text,
-					Value:    "",
+					Value:    "jane",
 					Options:  []map[string]string{},
 				},
 				{
@@ -32,9 +32,9 @@ func GetForm1Content() (types.Panel, error) {
 					TypeName: "int",
 					Head:     "Age",
 					Default:  "11",
+					Value:    "11",
 					Editable: true,
 					FormType: form.Number,
-					Value:    "",
 					Options:  []map[string]string{},
 				},
 				{
