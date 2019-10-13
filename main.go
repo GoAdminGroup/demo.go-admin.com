@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/GoAdminGroup/demo_en/ecommerce"
 	"github.com/GoAdminGroup/demo_en/login"
 	"github.com/GoAdminGroup/demo_en/pages"
 	_ "github.com/GoAdminGroup/go-admin/adapter/gin"
@@ -43,19 +42,13 @@ func main() {
 
 	r.GET("/admin", func(ctx *gin.Context) {
 		engine.Content(ctx, func(ctx interface{}) (types.Panel, error) {
-			return ecommerce.GetContent()
+			return pages.GetContent()
 		})
 	})
 
 	r.GET("/admin/form1", func(ctx *gin.Context) {
 		engine.Content(ctx, func(ctx interface{}) (types.Panel, error) {
 			return pages.GetForm1Content()
-		})
-	})
-
-	r.GET("/admin/e-commerce", func(ctx *gin.Context) {
-		engine.Content(ctx, func(ctx interface{}) (types.Panel, error) {
-			return ecommerce.GetContent()
 		})
 	})
 

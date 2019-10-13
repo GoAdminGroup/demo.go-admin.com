@@ -1,4 +1,4 @@
-package ecommerce
+package pages
 
 import (
 	"github.com/GoAdminGroup/go-admin/modules/config"
