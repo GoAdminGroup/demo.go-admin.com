@@ -9,7 +9,7 @@ import (
 	"github.com/GoAdminGroup/go-admin/plugins/admin"
 	"github.com/GoAdminGroup/go-admin/template"
 	"github.com/GoAdminGroup/go-admin/template/types"
-	_ "github.com/GoAdminGroup/themes/adminlte"
+	_ "github.com/GoAdminGroup/themes/sword"
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,7 +42,7 @@ func main() {
 
 	r.GET("/admin", func(ctx *gin.Context) {
 		engine.Content(ctx, func(ctx interface{}) (types.Panel, error) {
-			return pages.GetContent()
+			return pages.GetDashBoard2Content()
 		})
 	})
 
