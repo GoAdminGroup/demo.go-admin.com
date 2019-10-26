@@ -1,15 +1,18 @@
 package main
 
 import (
+	_ "github.com/GoAdminGroup/go-admin/adapter/gin"
+	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/mysql"
+	_ "github.com/GoAdminGroup/themes/adminlte"
+	_ "github.com/GoAdminGroup/themes/sword"
+
 	"github.com/GoAdminGroup/demo_en/login"
 	"github.com/GoAdminGroup/demo_en/pages"
-	_ "github.com/GoAdminGroup/go-admin/adapter/gin"
 	"github.com/GoAdminGroup/go-admin/engine"
 	"github.com/GoAdminGroup/go-admin/examples/datamodel"
 	"github.com/GoAdminGroup/go-admin/plugins/admin"
 	"github.com/GoAdminGroup/go-admin/template"
 	"github.com/GoAdminGroup/go-admin/template/types"
-	_ "github.com/GoAdminGroup/themes/sword"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

@@ -3,7 +3,6 @@ config.json
 config
 uploads
 Makefile
-go.sum
 build
 deploy
 .DS_Store
