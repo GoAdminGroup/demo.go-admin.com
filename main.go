@@ -2,9 +2,11 @@ package main
 
 import (
 	_ "github.com/GoAdminGroup/go-admin/adapter/gin"
+	"github.com/GoAdminGroup/go-admin/modules/config"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/mysql"
 	_ "github.com/GoAdminGroup/themes/adminlte"
 	_ "github.com/GoAdminGroup/themes/sword"
+	template2 "html/template"
 
 	"github.com/GoAdminGroup/demo_en/login"
 	"github.com/GoAdminGroup/demo_en/pages"
@@ -36,7 +38,15 @@ func main() {
 	rootPath := "/data/www/go-admin-en"
 	//rootPath = "."
 
-	if err := eng.AddConfigFromJson(rootPath + "/config.json").AddPlugins(adminPlugin).Use(r); err != nil {
+	cfg := config.ReadFromJson(rootPath + "/config.json")
+	cfg.CustomFootHtml = template2.HTML(`<div style="display:none;">
+    <script type="text/javascript" src="https://v1.cnzz.com/z_stat.php?id=1277862090&web_id=1277862090"></script>
+</div>`)
+	cfg.CustomHeadHtml = template2.HTML(`<link rel="icon" type="image/png" sizes="32x32" href="//quick.go-admin.cn/official/assets/imgs/icons.ico/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="//quick.go-admin.cn/official/assets/imgs/icons.ico/favicon-64x64.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="//quick.go-admin.cn/official/assets/imgs/icons.ico/favicon-16x16.png">`)
+
+	if err := eng.AddConfig(cfg).AddPlugins(adminPlugin).Use(r); err != nil {
 		panic(err)
 	}
 
