@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/GoAdminGroup/components/echarts"
 	_ "github.com/GoAdminGroup/go-admin/adapter/gin"
 	"github.com/GoAdminGroup/go-admin/modules/config"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/mysql"
@@ -36,6 +37,7 @@ func main() {
 
 	template.AddLoginComp(login.GetLoginComponent())
 	template.AddComp(chartjs.NewChart())
+	template.AddComp(echarts.NewChart())
 
 	rootPath := "/data/www/go-admin-en"
 	//rootPath = "."
@@ -65,6 +67,12 @@ func main() {
 	r.GET("/admin/form1", func(ctx *gin.Context) {
 		engine.Content(ctx, func(ctx interface{}) (types.Panel, error) {
 			return pages.GetForm1Content()
+		})
+	})
+
+	r.GET("/admin/echarts", func(ctx *gin.Context) {
+		engine.Content(ctx, func(ctx interface{}) (types.Panel, error) {
+			return pages.GetDashBoard3Content()
 		})
 	})
 
