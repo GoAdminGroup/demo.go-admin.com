@@ -228,7 +228,7 @@ func GetForm1Content() (types.Panel, error) {
 
 	return types.Panel{
 		Content:     aform,
-		Title:       "表单",
-		Description: "表单例子",
+		Title:       "Form",
+		Description: "form example",
 	}, nil
 }
