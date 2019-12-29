@@ -9,6 +9,9 @@ import (
 	_ "github.com/GoAdminGroup/themes/adminlte"
 	_ "github.com/GoAdminGroup/themes/sword"
 	template2 "html/template"
+	"log"
+	"os"
+	"os/signal"
 
 	"github.com/GoAdminGroup/demo_en/login"
 	"github.com/GoAdminGroup/demo_en/pages"
@@ -80,5 +83,13 @@ func main() {
 		ctx.Redirect(http.StatusMovedPermanently, "/admin")
 	})
 
-	_ = r.Run(":9032")
+	go func() {
+		_ = r.Run(":9032")
+	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	log.Print("closing database connection")
+	eng.MysqlConnection().Close()
 }
