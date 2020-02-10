@@ -12,8 +12,6 @@ import (
 	"github.com/GoAdminGroup/go-admin/template/types/action"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 	editType "github.com/GoAdminGroup/go-admin/template/types/table"
-	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 // GetUserTable return the model of table user.
@@ -63,10 +61,18 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 	info.AddField("UpdatedAt", "updated_at", db.Timestamp).FieldEditAble(editType.Datetime)
 
 	info.AddActionButton("google", action.Jump("https://google.com"))
+	info.AddActionButton("audit", action.Ajax("/admin/audit",
+		func(ctx *context.Context) (success bool, data, msg string) {
+			return true, "", "success"
+		}))
 	info.AddButton("google", icon.Google, action.Jump("https://google.com"))
-	info.AddButton("info", icon.Terminal, action.PopUp("/admin/popup", "Popup Example",
+	info.AddButton("popup", icon.Terminal, action.PopUp("/admin/popup", "Popup Example",
 		func(ctx *context.Context) (success bool, data, msg string) {
 			return true, "<h2>hello world</h2>", ""
+		}))
+	info.AddButton("ajax", icon.Android, action.Ajax("/admin/ajax",
+		func(ctx *context.Context) (success bool, data, msg string) {
+			return true, "", "success"
 		}))
 
 	info.SetTable("users").SetTitle("Users").SetDescription("Users")
