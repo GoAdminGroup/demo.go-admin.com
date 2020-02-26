@@ -24,7 +24,7 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Text,
 					Value:    "jane",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "age",
@@ -34,7 +34,7 @@ func GetForm1Content() (types.Panel, error) {
 					Value:    "11",
 					Editable: true,
 					FormType: form.Number,
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "homepage",
@@ -44,7 +44,7 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Url,
 					Value:    "",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "email",
@@ -54,7 +54,7 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Email,
 					Value:    "",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "birthday",
@@ -64,7 +64,7 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Datetime,
 					Value:    "",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "password",
@@ -74,7 +74,7 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Password,
 					Value:    "",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "ip",
@@ -84,7 +84,7 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Ip,
 					Value:    "",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "currency",
@@ -94,7 +94,7 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Currency,
 					Value:    "",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 				{
 					Field:    "content",
@@ -104,10 +104,23 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.RichText,
 					Value:    "",
-					Options:  []map[string]string{},
+					Options:  types.FieldOptions{},
 				},
 			},
 			{
+				{
+					Field:    "website",
+					TypeName: db.Tinyint,
+					Head:     "Switch",
+					Default:  "",
+					Editable: true,
+					FormType: form.Switch,
+					Value:    "",
+					Options: types.FieldOptions{
+						{Text: "website", Value: "0"},
+						{Text: "website", Value: "1"},
+					},
+				},
 				{
 					Field:    "fruit",
 					TypeName: db.Varchar,
@@ -116,24 +129,15 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.SelectBox,
 					Value:    "",
-					Options: []map[string]string{
-						{
-							"field": "apple",
-							"value": "apple",
-						}, {
-							"field": "banana",
-							"value": "banana",
-						}, {
-							"field": "watermelon",
-							"value": "watermelon",
-						}, {
-							"field": "pear",
-							"value": "pear",
-						},
+					Options: types.FieldOptions{
+						{Text: "apple", Value: "apple"},
+						{Text: "banana", Value: "banana"},
+						{Text: "watermelon", Value: "watermelon"},
+						{Text: "pear", Value: "pear"},
 					},
 					FieldDisplay: types.FieldDisplay{
 						Display: func(value types.FieldModel) interface{} {
-							return []string{"pear"}
+							return []string{"梨"}
 						},
 					},
 				},
@@ -145,48 +149,24 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.Radio,
 					Value:    "",
-					Options: []map[string]string{
-						{
-							"field":    "gender",
-							"label":    "male",
-							"value":    "0",
-							"selected": "true",
-						},
-						{
-							"field":    "gender",
-							"label":    "female",
-							"value":    "1",
-							"selected": "false",
-						},
+					Options: types.FieldOptions{
+						{Text: "male", Value: "0"},
+						{Text: "female", Value: "1"},
 					},
 				},
 				{
 					Field:    "drink",
 					TypeName: db.Varchar,
 					Head:     "Drink",
-					Default:  "",
+					Default:  "beer",
 					Editable: true,
 					FormType: form.Select,
 					Value:    "",
-					Options: []map[string]string{
-						{
-							"field": "beer",
-							"value": "beer",
-						}, {
-							"field": "juice",
-							"value": "juice",
-						}, {
-							"field": "water",
-							"value": "water",
-						}, {
-							"field": "red bull",
-							"value": "red bull",
-						},
-					},
-					FieldDisplay: types.FieldDisplay{
-						Display: func(value types.FieldModel) interface{} {
-							return []string{"beer"}
-						},
+					Options: types.FieldOptions{
+						{Text: "beer", Value: "beer"},
+						{Text: "juice", Value: "juice"},
+						{Text: "water", Value: "water"},
+						{Text: "red bull", Value: "red bull"},
 					},
 				},
 				{
@@ -197,25 +177,11 @@ func GetForm1Content() (types.Panel, error) {
 					Editable: true,
 					FormType: form.SelectSingle,
 					Value:    "",
-					Options: []map[string]string{
-						{
-							"field": "two years",
-							"value": "0",
-						}, {
-							"field": "three years",
-							"value": "1",
-						}, {
-							"field": "four years",
-							"value": "2",
-						}, {
-							"field": "five years",
-							"value": "3",
-						},
-					},
-					FieldDisplay: types.FieldDisplay{
-						Display: func(value types.FieldModel) interface{} {
-							return []string{"two years"}
-						},
+					Options: types.FieldOptions{
+						{Text: "two years", Value: "0"},
+						{Text: "three years", Value: "1"},
+						{Text: "four years", Value: "2"},
+						{Text: "five years", Value: "3"},
 					},
 				},
 			},
