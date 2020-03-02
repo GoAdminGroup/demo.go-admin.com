@@ -52,6 +52,11 @@ func main() {
         <link rel="icon" type="image/png" sizes="96x96" href="//quick.go-admin.cn/official/assets/imgs/icons.ico/favicon-64x64.png">
         <link rel="icon" type="image/png" sizes="16x16" href="//quick.go-admin.cn/official/assets/imgs/icons.ico/favicon-16x16.png">`)
 
+	cfg.Animation = config.PageAnimation{
+		Type:     "fadeInUp",
+		Duration: 0.9,
+	}
+
 	if err := eng.AddConfig(cfg).AddPlugins(adminPlugin).Use(r); err != nil {
 		panic(err)
 	}

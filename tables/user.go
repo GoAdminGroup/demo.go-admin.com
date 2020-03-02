@@ -42,9 +42,9 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 			return "women"
 		}
 		return "unknown"
-	}).FieldEditAble(editType.Select).FieldEditOptions(types.FieldOptions{
-		{Value: "0", Text: "men"},
-		{Value: "1", Text: "women"},
+	}).FieldEditAble(editType.Switch).FieldEditOptions(types.FieldOptions{
+		{Value: "0", Text: "👨"},
+		{Value: "1", Text: "👩"},
 	}).FieldFilterable(types.FilterType{FormType: form.SelectSingle}).FieldFilterOptions(types.FieldOptions{
 		{Value: "0", Text: "men"},
 		{Value: "1", Text: "women"},
@@ -74,6 +74,10 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "success", ""
 		}))
+	info.AddSelectBox("gender", types.FieldOptions{
+		{Value: "0", Text: "men"},
+		{Value: "1", Text: "women"},
+	}, action.FieldFilter("user", "gender"))
 
 	info.SetTable("users").SetTitle("Users").SetDescription("Users")
 

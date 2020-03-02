@@ -3,6 +3,7 @@ package pages
 import (
 	"github.com/GoAdminGroup/go-admin/modules/config"
 	"github.com/GoAdminGroup/go-admin/modules/db"
+	form2 "github.com/GoAdminGroup/go-admin/plugins/admin/modules/form"
 	template2 "github.com/GoAdminGroup/go-admin/template"
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
@@ -189,11 +190,16 @@ func GetForm1Content() (types.Panel, error) {
 		SetPrefix(config.Get().PrefixFixSlash()).
 		SetUrl("/").
 		SetTitle("Form").
-		SetInfoUrl("/admin").
-		GetContent()
+		SetHiddenFields(map[string]string{
+			form2.PreviousKey: "/admin",
+		})
 
 	return types.Panel{
-		Content:     aform,
+		Content: components.Box().
+			SetHeader(aform.GetDefaultBoxHeader()).
+			WithHeadBorder().
+			SetBody(aform.GetContent()).
+			GetContent(),
 		Title:       "Form",
 		Description: "form example",
 	}, nil
