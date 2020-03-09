@@ -47,7 +47,7 @@ func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 		FieldDefault(`<h1>343434</h1><p>34344433434</p><ol><li>23234</li><li>2342342342</li><li>asdfads</li></ol><ul><li>3434334</li><li>34343343434</li><li>44455</li></ul><p><span style="color: rgb(194, 79, 74);">343434</span></p><p><span style="background-color: rgb(194, 79, 74); color: rgb(0, 0, 0);">434434433434</span></p><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><p><br></p><p><span style="color: rgb(194, 79, 74);"><br></span></p>`)
 
 	panel.AddField("Website", "website", db.Tinyint, form.Switch).
-		FieldHelpMsg("站点关闭后将不能访问，后台可正常登录").
+		FieldHelpMsg("The Website will not be able to access after closing, the admin system still can login").
 		FieldOptions(types.FieldOptions{
 			{Value: "0"},
 			{Value: "1"},
