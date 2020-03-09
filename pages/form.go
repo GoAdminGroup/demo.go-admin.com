@@ -3,196 +3,102 @@ package pages
 import (
 	"github.com/GoAdminGroup/go-admin/modules/config"
 	"github.com/GoAdminGroup/go-admin/modules/db"
+	"github.com/GoAdminGroup/go-admin/modules/language"
 	form2 "github.com/GoAdminGroup/go-admin/plugins/admin/modules/form"
 	template2 "github.com/GoAdminGroup/go-admin/template"
+	"github.com/GoAdminGroup/go-admin/template/icon"
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
+	"github.com/gin-gonic/gin"
 )
 
-func GetForm1Content() (types.Panel, error) {
+func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 
 	components := template2.Get(config.Get().Theme)
 
-	aform := components.Form().
-		SetTabHeaders([]string{"input", "select"}).
-		SetTabContents([][]types.FormField{
-			{
-				{
-					Field:    "name",
-					TypeName: db.Varchar,
-					Head:     "Name",
-					Default:  "jane",
-					Editable: true,
-					FormType: form.Text,
-					Value:    "jane",
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "age",
-					TypeName: "int",
-					Head:     "Age",
-					Default:  "11",
-					Value:    "11",
-					Editable: true,
-					FormType: form.Number,
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "homepage",
-					TypeName: db.Varchar,
-					Head:     "HomePage",
-					Default:  "http://google.com",
-					Editable: true,
-					FormType: form.Url,
-					Value:    "",
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "email",
-					TypeName: db.Varchar,
-					Head:     "Email",
-					Default:  "xxxx@xxx.com",
-					Editable: true,
-					FormType: form.Email,
-					Value:    "",
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "birthday",
-					TypeName: db.Varchar,
-					Head:     "Birthday",
-					Default:  "2010-09-05",
-					Editable: true,
-					FormType: form.Datetime,
-					Value:    "",
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "password",
-					TypeName: db.Varchar,
-					Head:     "Password",
-					Default:  "",
-					Editable: true,
-					FormType: form.Password,
-					Value:    "",
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "ip",
-					TypeName: db.Varchar,
-					Head:     "Ip",
-					Default:  "",
-					Editable: true,
-					FormType: form.Ip,
-					Value:    "",
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "currency",
-					TypeName: db.Int,
-					Head:     "Currency",
-					Default:  "",
-					Editable: true,
-					FormType: form.Currency,
-					Value:    "",
-					Options:  types.FieldOptions{},
-				},
-				{
-					Field:    "content",
-					TypeName: db.Text,
-					Head:     "Content",
-					Default:  "",
-					Editable: true,
-					FormType: form.RichText,
-					Value:    "",
-					Options:  types.FieldOptions{},
-				},
-			},
-			{
-				{
-					Field:    "website",
-					TypeName: db.Tinyint,
-					Head:     "Switch",
-					Default:  "",
-					Editable: true,
-					FormType: form.Switch,
-					Value:    "",
-					Options: types.FieldOptions{
-						{Value: "0"},
-						{Value: "1"},
-					},
-				},
-				{
-					Field:    "fruit",
-					TypeName: db.Varchar,
-					Head:     "Fruit",
-					Default:  "",
-					Editable: true,
-					FormType: form.SelectBox,
-					Value:    "",
-					Options: types.FieldOptions{
-						{Text: "apple", Value: "apple"},
-						{Text: "banana", Value: "banana"},
-						{Text: "watermelon", Value: "watermelon"},
-						{Text: "pear", Value: "pear"},
-					},
-					FieldDisplay: types.FieldDisplay{
-						Display: func(value types.FieldModel) interface{} {
-							return []string{"梨"}
-						},
-					},
-				},
-				{
-					Field:    "gender",
-					TypeName: db.Tinyint,
-					Head:     "Gender",
-					Default:  "0",
-					Editable: true,
-					FormType: form.Radio,
-					Value:    "",
-					Options: types.FieldOptions{
-						{Text: "male", Value: "0"},
-						{Text: "female", Value: "1"},
-					},
-				},
-				{
-					Field:    "drink",
-					TypeName: db.Varchar,
-					Head:     "Drink",
-					Default:  "beer",
-					Editable: true,
-					FormType: form.Select,
-					Value:    "",
-					Options: types.FieldOptions{
-						{Text: "beer", Value: "beer"},
-						{Text: "juice", Value: "juice"},
-						{Text: "water", Value: "water"},
-						{Text: "red bull", Value: "red bull"},
-					},
-				},
-				{
-					Field:    "experience",
-					TypeName: db.Tinyint,
-					Head:     "Work experience",
-					Default:  "",
-					Editable: true,
-					FormType: form.SelectSingle,
-					Value:    "",
-					Options: types.FieldOptions{
-						{Text: "two years", Value: "0"},
-						{Text: "three years", Value: "1"},
-						{Text: "four years", Value: "2"},
-						{Text: "five years", Value: "3"},
-					},
-				},
-			},
+	col1 := components.Col().GetContent()
+	btn1 := components.Button().SetType("submit").
+		SetContent(language.GetFromHtml("Save")).
+		SetThemePrimary().
+		SetOrientationRight().
+		SetLoadingText(icon.Icon("fa-spinner fa-spin", 2) + `Save`).
+		GetContent()
+	btn2 := components.Button().SetType("reset").
+		SetContent(language.GetFromHtml("Reset")).
+		SetThemeWarning().
+		SetOrientationLeft().
+		GetContent()
+	col2 := components.Col().SetSize(types.SizeMD(8)).
+		SetContent(btn1 + btn2).GetContent()
+
+	var panel = types.NewFormPanel()
+	panel.AddField("Name", "name", db.Varchar, form.Text)
+	panel.AddField("Age", "age", db.Int, form.Number)
+	panel.AddField("HomePage", "homepage", db.Varchar, form.Url).FieldDefault("http://google.com")
+	panel.AddField("Email", "email", db.Varchar, form.Email).FieldDefault("xxxx@xxx.com")
+	panel.AddField("Birthday", "birthday", db.Varchar, form.Datetime).FieldDefault("2010-09-05")
+	panel.AddField("Password", "password", db.Varchar, form.Password)
+	panel.AddField("IP", "ip", db.Varchar, form.Ip)
+	panel.AddField("Certificate", "certificate", db.Varchar, form.Multifile).FieldOptionExt(map[string]interface{}{
+		"maxFileCount": 10,
+	})
+	panel.AddField("Money", "currency", db.Int, form.Currency)
+	panel.AddField("Content", "content", db.Text, form.RichText).
+		FieldDefault(`<h1>343434</h1><p>34344433434</p><ol><li>23234</li><li>2342342342</li><li>asdfads</li></ol><ul><li>3434334</li><li>34343343434</li><li>44455</li></ul><p><span style="color: rgb(194, 79, 74);">343434</span></p><p><span style="background-color: rgb(194, 79, 74); color: rgb(0, 0, 0);">434434433434</span></p><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><p><br></p><p><span style="color: rgb(194, 79, 74);"><br></span></p>`)
+
+	panel.AddField("Website", "website", db.Tinyint, form.Switch).
+		FieldHelpMsg("站点关闭后将不能访问，后台可正常登录").
+		FieldOptions(types.FieldOptions{
+			{Value: "0"},
+			{Value: "1"},
+		})
+	panel.AddField("Fruit", "fruit", db.Varchar, form.SelectBox).
+		FieldOptions(types.FieldOptions{
+			{Text: "Apple", Value: "apple"},
+			{Text: "Banana", Value: "banana"},
+			{Text: "Watermelon", Value: "watermelon"},
+			{Text: "Pear", Value: "pear"},
 		}).
+		FieldDisplay(func(value types.FieldModel) interface{} {
+			return []string{"Pear"}
+		})
+	panel.AddField("Gender", "gender", db.Tinyint, form.Radio).
+		FieldOptions(types.FieldOptions{
+			{Text: "Men", Value: "0"},
+			{Text: "Women", Value: "1"},
+		})
+	panel.AddField("Drink", "drink", db.Tinyint, form.Select).
+		FieldOptions(types.FieldOptions{
+			{Text: "Beer", Value: "beer"},
+			{Text: "Juice", Value: "juice"},
+			{Text: "Water", Value: "water"},
+			{Text: "Red Bull", Value: "red bull"},
+		}).FieldDefault("beer")
+	panel.AddField("Work Experience", "experience", db.Tinyint, form.SelectSingle).
+		FieldOptions(types.FieldOptions{
+			{Text: "two years", Value: "0"},
+			{Text: "three years", Value: "1"},
+			{Text: "four years", Value: "2"},
+			{Text: "five years", Value: "3"},
+		}).FieldDefault("beer")
+	panel.SetTabGroups(types.TabGroups{
+		{"name", "age", "homepage", "email", "birthday", "password", "ip", "certificate", "currency", "content"},
+		{"website", "fruit", "gender", "drink", "experience"},
+	})
+	panel.SetTabHeaders("input", "select")
+
+	fields, headers := panel.GroupField()
+
+	aform := components.Form().
+		SetTabHeaders(headers).
+		SetTabContents(fields).
 		SetPrefix(config.Get().PrefixFixSlash()).
-		SetUrl("/").
+		SetUrl("/admin/form/update").
 		SetTitle("Form").
 		SetHiddenFields(map[string]string{
 			form2.PreviousKey: "/admin",
-		})
+		}).
+		SetOperationFooter(col1 + col2)
 
 	return types.Panel{
 		Content: components.Box().

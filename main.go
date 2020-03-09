@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"github.com/GoAdminGroup/go-admin/context"
 	"log"
 	"net/http"
 	"os"
@@ -19,7 +21,6 @@ import (
 	"github.com/GoAdminGroup/go-admin/plugins/admin"
 	"github.com/GoAdminGroup/go-admin/template"
 	"github.com/GoAdminGroup/go-admin/template/chartjs"
-	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/gin-gonic/gin"
 )
 
@@ -65,20 +66,18 @@ func main() {
 
 	// you can custom your pages like:
 
-	r.GET("/admin", ada.Content(func(ctx *gin.Context) (types.Panel, error) {
-		return pages.GetDashBoard2Content()
-	}))
-
-	r.GET("/admin/form1", ada.Content(func(ctx *gin.Context) (types.Panel, error) {
-		return pages.GetForm1Content()
-	}))
-
-	r.GET("/admin/echarts", ada.Content(func(ctx *gin.Context) (types.Panel, error) {
-		return pages.GetDashBoard3Content()
-	}))
+	r.GET("/admin", ada.Content(pages.GetDashBoard2Content))
+	r.GET("/admin/echarts", ada.Content(pages.GetDashBoard3Content))
+	r.GET("/admin/form1", ada.Content(pages.GetForm1Content))
+	r.GET("/admin/table", ada.Content(pages.GetTableContent))
 
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.Redirect(http.StatusMovedPermanently, "/admin")
+	})
+
+	eng.Data("POST", "/admin/form/update", func(ctx *context.Context) {
+		fmt.Println("ctx.PostForm()", ctx.PostForm())
+		ctx.PjaxUrl("/admin")
 	})
 
 	go func() {
