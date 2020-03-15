@@ -65,6 +65,10 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "success", ""
 		}))
+	info.AddActionButton("Preview", action.PopUp("/admin/preview", "Preview",
+		func(ctx *context.Context) (success bool, msg string, data interface{}) {
+			return true, "", "<h2>hello world</h2>"
+		}))
 	info.AddButton("google", icon.Google, action.Jump("https://google.com"))
 	info.AddButton("popup", icon.Terminal, action.PopUp("/admin/popup", "Popup Example",
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
