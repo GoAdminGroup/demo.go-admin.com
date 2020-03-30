@@ -49,6 +49,13 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 		{Value: "0", Text: "men"},
 		{Value: "1", Text: "women"},
 	})
+	info.AddColumn("personality", func(value types.FieldModel) interface{} {
+		return "handsome"
+	})
+	info.AddColumnButtons("see more", types.GetColumnButton("more", icon.Info,
+		action.PopUp("/see/more/example", "Detail", func(ctx *context.Context) (success bool, msg string, data interface{}) {
+			return true, "ok", "<h1>Detail</h1><p>balabala</p><p>this feature will be released in v1.2.7</p>"
+		})))
 	info.AddField("Phone", "phone", db.Varchar).FieldFilterable()
 	info.AddField("City", "city", db.Varchar).FieldFilterable()
 	info.AddField("Avatar", "avatar", db.Varchar).FieldDisplay(func(value types.FieldModel) interface{} {
