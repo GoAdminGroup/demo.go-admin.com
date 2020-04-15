@@ -72,6 +72,9 @@ func main() {
 		if values.Get("site_off") == "true" || values.Get("no_limit_login_ip") == "false" {
 			return nil, errors.New("permission denied")
 		}
+		if values.Get("login_title") != "GoAdmin" {
+			return nil, errors.New("permission denied")
+		}
 		return values, nil
 	})
 
