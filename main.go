@@ -34,7 +34,7 @@ func main() {
 
 	eng := engine.Default()
 
-	template.AddLoginComp(login.GetLoginComponent())
+	template.AddLoginComp(login.Get())
 	template.AddComp(chartjs.NewChart())
 	template.AddComp(echarts.NewChart())
 
