@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/GoAdminGroup/librarian"
 	"log"
 	"net/http"
 	"os"
@@ -75,6 +76,16 @@ func main() {
 		if values.Get("login_title") != "GoAdmin" {
 			return nil, errors.New("permission denied")
 		}
+		if values.Get("custom_head_html") != string(cfg.CustomHeadHtml) {
+			return nil, errors.New("permission denied")
+		}
+		if values.Get("custom_foot_html") != string(cfg.CustomFootHtml) {
+			return nil, errors.New("permission denied")
+		}
+		if values.Get("footer_info") != "" || values.Get("login_logo") != string(cfg.LoginLogo) ||
+			values.Get("logo") != string(cfg.Logo) || values.Get("mini_logo") != string(cfg.MiniLogo) {
+			return nil, errors.New("permission denied")
+		}
 		return values, nil
 	})
 
@@ -88,6 +99,10 @@ func main() {
 			AllowRename:   true,
 			AllowDownload: true,
 			AllowMove:     true,
+		}), librarian.NewLibrarianWithConfig(librarian.Config{
+			Path:      "/data/www/go-admin-en/fm_example/markdown",
+			BuildMenu: false,
+			Prefix:    "librarian",
 		})).
 		AddNavButtons("Website Info", "", action.PopUp("/website/info", "Website Info",
 			func(ctx *context.Context) (success bool, msg string, data interface{}) {
