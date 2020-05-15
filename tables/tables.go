@@ -15,6 +15,8 @@ import "github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 // "authors" => http://localhost:9033/admin/info/authors
 //
 var Generators = map[string]table.Generator{
-	"posts":   GetPostsTable,
-	"authors": GetAuthorsTable,
+	"posts":    GetPostsTable,
+	"authors":  GetAuthorsTable,
+	"employee": GetEmployeeTable,
+	"profile":  GetProfileTable,
 }

@@ -81,11 +81,17 @@ func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 			{Text: "four years", Value: "2"},
 			{Text: "five years", Value: "3"},
 		}).FieldDefault("beer")
+	panel.AddField("Employee", "employee", db.Varchar, form.Array)
+	panel.AddTable("Setting", "setting", func(panel *types.FormPanel) {
+		panel.AddField("Key", "key", db.Varchar, form.Default)
+		panel.AddField("Value", "value", db.Varchar, form.Default)
+	})
 	panel.SetTabGroups(types.TabGroups{
 		{"name", "age", "homepage", "email", "birthday", "password", "ip", "certificate", "currency", "content"},
 		{"website", "fruit", "gender", "drink", "experience"},
+		{"employee", "setting"},
 	})
-	panel.SetTabHeaders("input", "select")
+	panel.SetTabHeaders("input", "select", "multi")
 
 	fields, headers := panel.GroupField()
 
@@ -102,7 +108,7 @@ func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 
 	return types.Panel{
 		Content: components.Box().
-			SetHeader(aform.GetDefaultBoxHeader()).
+			SetHeader(aform.GetDefaultBoxHeader(true)).
 			WithHeadBorder().
 			SetBody(aform.GetContent()).
 			GetContent(),
