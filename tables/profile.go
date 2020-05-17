@@ -50,7 +50,6 @@ func GetProfileTable(ctx *context.Context) table.Table {
 	info.SetTable("profile").SetTitle("Profile").SetDescription("Profile")
 
 	formList := profile.GetForm()
-	formList.AddField("Id", "id", db.Int, form.Default)
 	formList.AddField("UUID", "uuid", db.Varchar, form.Text)
 	formList.AddField("Photos", "photos", db.Varchar, form.Text)
 	formList.AddField("Resume", "resume", db.Varchar, form.Text)

@@ -81,6 +81,8 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "", "<h2>hello world</h2>"
 		}))
+	info.AddButton("iframe", icon.Tv, action.PopUpWithIframe("/admin/iframe", "Iframe Example",
+		action.IframeData{Src: "/admin/info/profile/new"}, "900px", "600px"))
 	info.AddButton("ajax", icon.Android, action.Ajax("/admin/ajax",
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "success", ""

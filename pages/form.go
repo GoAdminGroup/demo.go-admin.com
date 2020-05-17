@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"fmt"
 	"github.com/GoAdminGroup/go-admin/modules/config"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/modules/language"
@@ -10,6 +11,7 @@ import (
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 	"github.com/gin-gonic/gin"
+	"html/template"
 )
 
 func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
@@ -32,26 +34,82 @@ func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 		SetContent(btn1 + btn2).GetContent()
 
 	var panel = types.NewFormPanel()
-	panel.AddField("Name", "name", db.Varchar, form.Text)
-	panel.AddField("Age", "age", db.Int, form.Number)
-	panel.AddField("HomePage", "homepage", db.Varchar, form.Url).FieldDefault("http://google.com")
-	panel.AddField("Email", "email", db.Varchar, form.Email).FieldDefault("xxxx@xxx.com")
-	panel.AddField("Birthday", "birthday", db.Varchar, form.Datetime).FieldDefault("2010-09-05")
-	panel.AddField("Password", "password", db.Varchar, form.Password)
-	panel.AddField("IP", "ip", db.Varchar, form.Ip)
+	panel.AddField("Name", "name", db.Varchar, form.Text).
+		FieldFoot(seeCodeHTML(`formList.AddField("Name", "name", db.Varchar, form.Text)`))
+	panel.AddField("Age", "age", db.Int, form.Number).
+		FieldFoot(seeCodeHTML(`formList.AddField("Age", "age", db.Int, form.Number)`))
+	panel.AddField("HomePage", "homepage", db.Varchar, form.Url).FieldDefault("http://google.com").
+		FieldFoot(seeCodeHTML(`formList.AddField("HomePage", "homepage", db.Varchar, form.Url).FieldDefault("http://google.com")`))
+	panel.AddField("Email", "email", db.Varchar, form.Email).FieldDefault("xxxx@xxx.com").
+		FieldFoot(seeCodeHTML(`formList.AddField("Email", "email", db.Varchar, form.Email).FieldDefault("xxxx@xxx.com")`))
+	panel.AddField("Birthday", "birthday", db.Varchar, form.Date).FieldDefault("2010-09-03 18:09:05").
+		FieldFoot(seeCodeHTML(`formList.AddField("Birthday", "birthday", db.Varchar, form.Date).FieldDefault("2010-09-03 18:09:05")`))
+	panel.AddField("Time", "time", db.Varchar, form.Datetime).FieldDefault("2010-09-05").
+		FieldFoot(seeCodeHTML(`formList.AddField("Time", "time", db.Varchar, form.Datetime).FieldDefault("2010-09-05")`))
+	panel.AddField("Time Range", "time_range", db.Varchar, form.DatetimeRange).
+		FieldFoot(seeCodeHTML(`formList.AddField("Time Range", "time_range", db.Varchar, form.DatetimeRange)`))
+	panel.AddField("Date Range", "date_range", db.Varchar, form.DateRange).
+		FieldFoot(seeCodeHTML(`formList.AddField("Date Range", "date_range", db.Varchar, form.DateRange)`))
+	panel.AddField("Password", "password", db.Varchar, form.Password).FieldDivider("Divider line").
+		FieldFoot(seeCodeHTML(`formList.AddField("Password", "password", db.Varchar, form.Password).FieldDivider("Divider line")`, true))
+	panel.AddField("IP", "ip", db.Varchar, form.Ip).
+		FieldFoot(seeCodeHTML(`formList.AddField("IP", "ip", db.Varchar, form.Ip)`))
 	panel.AddField("Certificate", "certificate", db.Varchar, form.Multifile).FieldOptionExt(map[string]interface{}{
 		"maxFileCount": 10,
-	})
-	panel.AddField("Money", "currency", db.Int, form.Currency)
+	}).
+		FieldFoot(seeCodeHTML(`formList.AddField("Certificate", "certificate", db.Varchar, form.Multifile).FieldOptionExt(map[string]interface{}{
+		"maxFileCount": 10,
+	})`))
+	panel.AddField("Money", "currency", db.Int, form.Currency).
+		FieldFoot(seeCodeHTML(`formList.AddField("Money", "currency", db.Int, form.Currency)`))
+	panel.AddField("Rate", "rate", db.Int, form.Rate).
+		FieldFoot(seeCodeHTML(`formList.AddField("Rate", "rate", db.Int, form.Rate)`))
+	panel.AddField("Reward", "reward", db.Int, form.Slider).FieldOptionExt(map[string]interface{}{
+		"max":     1000,
+		"min":     1,
+		"step":    1,
+		"postfix": "$",
+	}).
+		FieldFoot(seeCodeHTML(`formList.AddField("Reward", "reward", db.Int, form.Slider).FieldOptionExt(map[string]interface{}{
+		"max":     1000,
+		"min":     1,
+		"step":    1,
+		"postfix": "$",
+	})`))
 	panel.AddField("Content", "content", db.Text, form.RichText).
-		FieldDefault(`<h1>343434</h1><p>34344433434</p><ol><li>23234</li><li>2342342342</li><li>asdfads</li></ol><ul><li>3434334</li><li>34343343434</li><li>44455</li></ul><p><span style="color: rgb(194, 79, 74);">343434</span></p><p><span style="background-color: rgb(194, 79, 74); color: rgb(0, 0, 0);">434434433434</span></p><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><p><br></p><p><span style="color: rgb(194, 79, 74);"><br></span></p>`)
+		FieldDefault(`<h1>343434</h1><p>34344433434</p><ol><li>23234</li><li>2342342342</li><li>asdfads</li></ol><ul><li>3434334</li><li>34343343434</li><li>44455</li></ul><p><span style="color: rgb(194, 79, 74);">343434</span></p><p><span style="background-color: rgb(194, 79, 74); color: rgb(0, 0, 0);">434434433434</span></p><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><p><br></p><p><span style="color: rgb(194, 79, 74);"><br></span></p>`).
+		FieldDivider("Divider line No2").
+		FieldFoot(seeCodeHTML(`formList.AddField("Content", "content", db.Text, form.RichText).
+		FieldDefault(`+"`"+`<h1>343434</h1><p>34344433434</p><ol><li>23234</li><li>2342342342</li><li>asdfads</li></ol><ul><li>3434334</li><li>34343343434</li><li>44455</li></ul><p><span style="color: rgb(194, 79, 74);">343434</span></p><p><span style="background-color: rgb(194, 79, 74); color: rgb(0, 0, 0);">434434433434</span></p><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><p><br></p><p><span style="color: rgb(194, 79, 74);"><br></span></p>`+"`"+`).
+		FieldDivider("Divider line No2")`, true))
+	panel.AddField("Code", "code", db.Text, form.Code).FieldDefault(`package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("hello GoAdmin!")
+}
+`).
+		FieldFoot(seeCodeHTML(`formList.AddField("Code", "code", db.Text, form.Code).FieldDefault(` + "`" + `package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("hello GoAdmin!")
+}` + "`)"))
 
 	panel.AddField("Website", "website", db.Tinyint, form.Switch).
 		FieldHelpMsg("The Website will not be able to access after closing, the admin system still can login").
 		FieldOptions(types.FieldOptions{
 			{Value: "0"},
 			{Value: "1"},
-		})
+		}).
+		FieldFoot(seeCodeHTML(`formList.AddField("Website", "website", db.Tinyint, form.Switch).
+		FieldHelpMsg("The Website will not be able to access after closing, the admin system still can login").
+		FieldOptions(types.FieldOptions{
+			{Value: "0"},
+			{Value: "1"},
+		})`))
 	panel.AddField("Fruit", "fruit", db.Varchar, form.SelectBox).
 		FieldOptions(types.FieldOptions{
 			{Text: "Apple", Value: "apple"},
@@ -61,34 +119,140 @@ func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 		}).
 		FieldDisplay(func(value types.FieldModel) interface{} {
 			return []string{"Pear"}
-		})
+		}).
+		FieldFoot(seeCodeHTML(`formList.AddField("Fruit", "fruit", db.Varchar, form.SelectBox).
+		FieldOptions(types.FieldOptions{
+			{Text: "Apple", Value: "apple"},
+			{Text: "Banana", Value: "banana"},
+			{Text: "Watermelon", Value: "watermelon"},
+			{Text: "Pear", Value: "pear"},
+		}).
+		FieldDisplay(func(value types.FieldModel) interface{} {
+			return []string{"Pear"}
+		})`))
 	panel.AddField("Gender", "gender", db.Tinyint, form.Radio).
 		FieldOptions(types.FieldOptions{
 			{Text: "Men", Value: "0"},
 			{Text: "Women", Value: "1"},
-		})
+		}).
+		FieldFoot(seeCodeHTML(`formList.AddField("Gender", "gender", db.Tinyint, form.Radio).
+		FieldOptions(types.FieldOptions{
+			{Text: "Men", Value: "0"},
+			{Text: "Women", Value: "1"},
+		})`))
 	panel.AddField("Drink", "drink", db.Tinyint, form.Select).
 		FieldOptions(types.FieldOptions{
 			{Text: "Beer", Value: "beer"},
 			{Text: "Juice", Value: "juice"},
 			{Text: "Water", Value: "water"},
 			{Text: "Red Bull", Value: "red bull"},
-		}).FieldDefault("beer")
+		}).FieldDefault("beer").
+		FieldFoot(seeCodeHTML(`formList.AddField("Drink", "drink", db.Tinyint, form.Select).
+		FieldOptions(types.FieldOptions{
+			{Text: "Beer", Value: "beer"},
+			{Text: "Juice", Value: "juice"},
+			{Text: "Water", Value: "water"},
+			{Text: "Red Bull", Value: "red bull"},
+		}).FieldDefault("beer")`))
 	panel.AddField("Work Experience", "experience", db.Tinyint, form.SelectSingle).
 		FieldOptions(types.FieldOptions{
 			{Text: "two years", Value: "0"},
 			{Text: "three years", Value: "1"},
 			{Text: "four years", Value: "2"},
 			{Text: "five years", Value: "3"},
-		}).FieldDefault("beer")
-	panel.AddField("Employee", "employee", db.Varchar, form.Array)
+		}).FieldDefault("beer").
+		FieldFoot(seeCodeHTML(`formList.AddField("Work Experience", "experience", db.Tinyint, form.SelectSingle).
+		FieldOptions(types.FieldOptions{
+			{Text: "two years", Value: "0"},
+			{Text: "three years", Value: "1"},
+			{Text: "four years", Value: "2"},
+			{Text: "five years", Value: "3"},
+		}).FieldDefault("beer")`))
+	panel.AddField("Snacks", "snacks", db.Varchar, form.Checkbox).
+		FieldOptions(types.FieldOptions{
+			{Text: "cereal", Value: "0"},
+			{Text: "chips", Value: "1"},
+			{Text: "spicy strip", Value: "2"},
+			{Text: "ice cream", Value: "3"},
+		}).
+		FieldFoot(seeCodeHTML(`formList.AddField("Snacks", "snacks", db.Varchar, form.Checkbox).
+		FieldOptions(types.FieldOptions{
+			{Text: "cereal", Value: "0"},
+			{Text: "chips", Value: "1"},
+			{Text: "spicy strip", Value: "2"},
+			{Text: "ice cream", Value: "3"},
+		})`))
+	panel.AddField("Cat", "cat", db.Varchar, form.CheckboxStacked).
+		FieldOptions(types.FieldOptions{
+			{Text: "Garfield", Value: "0"},
+			{Text: "British Shorthair", Value: "1"},
+			{Text: "American Shorthair", Value: "2"},
+		}).
+		FieldFoot(seeCodeHTML(`formList.AddField("Cat", "cat", db.Varchar, form.CheckboxStacked).
+		FieldOptions(types.FieldOptions{
+			{Text: "Garfield", Value: "0"},
+			{Text: "British Shorthair", Value: "1"},
+			{Text: "American Shorthair", Value: "2"},
+		})`))
+	panel.AddRow(func(pa *types.FormPanel) {
+		panel.AddField("Province", "province", db.Tinyint, form.SelectSingle).
+			FieldOptions(types.FieldOptions{
+				{Text: "Beijing", Value: "0"},
+				{Text: "Shanghai", Value: "1"},
+				{Text: "GuangDong", Value: "2"},
+				{Text: "ChongQing", Value: "3"},
+			}).FieldRowWidth(2)
+		panel.AddField("City", "city", db.Tinyint, form.SelectSingle).
+			FieldOptions(types.FieldOptions{
+				{Text: "Beijing", Value: "0"},
+				{Text: "Shanghai", Value: "1"},
+				{Text: "GuangZhou", Value: "2"},
+				{Text: "ShenZhen", Value: "3"},
+			}).FieldRowWidth(3).FieldHeadWidth(2).FieldInputWidth(10)
+		panel.AddField("District", "district", db.Tinyint, form.SelectSingle).
+			FieldOptions(types.FieldOptions{
+				{Text: "ChaoYang", Value: "0"},
+				{Text: "HaiZhu", Value: "1"},
+				{Text: "PuDong", Value: "2"},
+				{Text: "BaoAn", Value: "3"},
+			}).FieldRowWidth(3).FieldHeadWidth(2).FieldInputWidth(9)
+	}).FieldFoot(seeCodeHTML(`panel.AddRow(func(pa *types.FormPanel) {
+		panel.AddField("Province", "province", db.Tinyint, form.SelectSingle).
+			FieldOptions(types.FieldOptions{
+				{Text: "Beijing", Value: "0"},
+				{Text: "Shanghai", Value: "1"},
+				{Text: "GuangDong", Value: "2"},
+				{Text: "ChongQing", Value: "3"},
+			}).FieldRowWidth(2)
+		panel.AddField("City", "city", db.Tinyint, form.SelectSingle).
+			FieldOptions(types.FieldOptions{
+				{Text: "Beijing", Value: "0"},
+				{Text: "Shanghai", Value: "1"},
+				{Text: "GuangZhou", Value: "2"},
+				{Text: "ShenZhen", Value: "3"},
+			}).FieldRowWidth(3).FieldHeadWidth(2).FieldInputWidth(10)
+		panel.AddField("区域", "district", db.Tinyint, form.SelectSingle).
+			FieldOptions(types.FieldOptions{
+				{Text: "ChaoYang", Value: "0"},
+				{Text: "HaiZhu", Value: "1"},
+				{Text: "PuDong", Value: "2"},
+				{Text: "BaoAn", Value: "3"},
+			}).FieldRowWidth(3).FieldHeadWidth(2).FieldInputWidth(9)
+	})`))
+	panel.AddField("Employee", "employee", db.Varchar, form.Array).
+		FieldFoot(seeCodeHTML(`formList.AddField("Employee", "employee", db.Varchar, form.Array)`))
 	panel.AddTable("Setting", "setting", func(panel *types.FormPanel) {
 		panel.AddField("Key", "key", db.Varchar, form.Text).FieldHideLabel()
 		panel.AddField("Value", "value", db.Varchar, form.Text).FieldHideLabel()
-	})
+	}).
+		FieldFoot(seeCodeHTML(`formList.AddTable("Setting", "setting", func(panel *types.FormPanel) {
+		panel.AddField("Key", "key", db.Varchar, form.Text).FieldHideLabel()
+		panel.AddField("Value", "value", db.Varchar, form.Text).FieldHideLabel()
+	})`))
 	panel.SetTabGroups(types.TabGroups{
-		{"name", "age", "homepage", "email", "birthday", "password", "ip", "certificate", "currency", "content"},
-		{"website", "fruit", "gender", "drink", "experience"},
+		{"name", "age", "homepage", "email", "birthday", "time", "time_range", "date_range", "password", "ip",
+			"certificate", "currency", "rate", "reward", "content", "code"},
+		{"website", "snacks", "fruit", "gender", "cat", "drink", "province", "city", "district", "experience"},
 		{"employee", "setting"},
 	})
 	panel.SetTabHeaders("input", "select", "multi")
@@ -106,13 +270,34 @@ func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 		}).
 		SetOperationFooter(col1 + col2)
 
+	popup := components.Popup().SetID("code_modal").
+		SetHideFooter().
+		SetTitle("Code").
+		SetHeight("300px").
+		SetBody(template.HTML("")).
+		GetContent()
+
 	return types.Panel{
 		Content: components.Box().
 			SetHeader(aform.GetDefaultBoxHeader(true)).
 			WithHeadBorder().
 			SetBody(aform.GetContent()).
-			GetContent(),
+			GetContent() + popup,
 		Title:       "Form",
 		Description: "form example",
+		CSS:         `.modal.fade.in{z-index:10002}`,
+		JS: `
+$(".see-code").on("click", function(){
+	$('#code_modal .modal-body').html('<textarea style="width: 100%;height: 100%;font-size: 17px;">' + $(this).parent().next().html() + "</textarea>");
+	$("#code_modal").modal();
+})
+`,
 	}, nil
+}
+
+func seeCodeHTML(data string, divide ...bool) template.HTML {
+	if len(divide) > 0 && divide[0] {
+		return template.HTML(fmt.Sprintf(`<div style="margin-top: 24px;"><a class="see-code" href="javascript:;">View Code</a></div><div style="display:none;">%s</div>`, data))
+	}
+	return template.HTML(fmt.Sprintf(`<div><a class="see-code" href="javascript:;">View Code</a></div><div style="display:none;">%s</div>`, data))
 }
