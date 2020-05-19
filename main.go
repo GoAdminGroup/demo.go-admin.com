@@ -1,13 +1,14 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
-	"github.com/GoAdminGroup/librarian"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	"time"
 
 	ada "github.com/GoAdminGroup/go-admin/adapter/gin"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/mysql"
@@ -19,7 +20,7 @@ import (
 	"github.com/GoAdminGroup/demo_en/pages"
 	"github.com/GoAdminGroup/demo_en/tables"
 	"github.com/GoAdminGroup/filemanager"
-	"github.com/GoAdminGroup/go-admin/context"
+	adminContext "github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/engine"
 	"github.com/GoAdminGroup/go-admin/modules/config"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/form"
@@ -27,6 +28,7 @@ import (
 	"github.com/GoAdminGroup/go-admin/template/chartjs"
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/action"
+	"github.com/GoAdminGroup/librarian"
 	"github.com/gin-gonic/gin"
 )
 
@@ -105,7 +107,7 @@ func main() {
 			Prefix:    "librarian",
 		})).
 		AddNavButtons("Website Info", "", action.PopUp("/website/info", "Website Info",
-			func(ctx *context.Context) (success bool, msg string, data interface{}) {
+			func(ctx *adminContext.Context) (success bool, msg string, data interface{}) {
 				return true, "ok", `<p>Created by <a href="https://github.com/chenhg5">cg33<a/></p>`
 			})).
 		AddNavButtons("Manager", "", action.Jump("/admin/info/manager")).
@@ -132,18 +134,33 @@ func main() {
 		ctx.Redirect(http.StatusMovedPermanently, "/admin")
 	})
 
-	eng.Data("POST", "/admin/form/update", func(ctx *context.Context) {
+	eng.Data("POST", "/admin/form/update", func(ctx *adminContext.Context) {
 		fmt.Println("ctx.PostForm()", ctx.PostForm())
 		ctx.PjaxUrl("/admin")
 	})
 
+	srv := &http.Server{
+		Addr:    ":9033",
+		Handler: r,
+	}
+
 	go func() {
-		_ = r.Run(":9032")
+		if err := srv.ListenAndServe(); err != nil {
+			log.Printf("listen: %s\n", err)
+		}
 	}()
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
+	log.Println("Server exiting")
+
 	log.Print("closing database connection")
 	eng.MysqlConnection().Close()
 }
