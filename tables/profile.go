@@ -4,7 +4,9 @@ import (
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
+	"github.com/GoAdminGroup/go-admin/template/icon"
 	"github.com/GoAdminGroup/go-admin/template/types"
+	"github.com/GoAdminGroup/go-admin/template/types/action"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 	"path/filepath"
 	"strings"
@@ -46,6 +48,22 @@ func GetProfileTable(ctx *context.Context) table.Table {
 		}).
 		FieldDownLoadable("http://yinyanghu.github.io/files/")
 	info.AddField("FileSize", "resume_size", db.Int).FieldFileSize()
+
+	info.AddButton("More", icon.FolderO, action.PopUpWithForm(action.PopUpData{
+		Id:     "/admin/popup/form",
+		Title:  "Popup Form Example",
+		Width:  "900px",
+		Height: "540px",
+	}, func(panel *types.FormPanel) *types.FormPanel {
+		panel.AddField("Name", "name", db.Varchar, form.Text)
+		panel.AddField("Age", "age", db.Int, form.Number)
+		panel.AddField("HomePage", "homepage", db.Varchar, form.Url).FieldDefault("http://google.com")
+		panel.AddField("Email", "email", db.Varchar, form.Email).FieldDefault("xxxx@xxx.com")
+		panel.AddField("Birthday", "birthday", db.Varchar, form.Date).FieldDefault("2010-09-03 18:09:05")
+		panel.AddField("Time", "time", db.Varchar, form.Datetime).FieldDefault("2010-09-05")
+		panel.EnableAjax("Success", "Failed")
+		return panel
+	}, "/admin/popup/form"))
 
 	info.SetTable("profile").SetTitle("Profile").SetDescription("Profile")
 

@@ -29,7 +29,9 @@ func GetPostsTable(ctx *context.Context) (postsTable table.Table) {
 			GetContent()
 	})
 	info.AddField("AuthorName", "name", db.Varchar).FieldDisplay(func(value types.FieldModel) interface{} {
-		return value.Row["authors_goadmin_join_first_name"].(string) + " " + value.Row["authors_goadmin_join_last_name"].(string)
+		first, _ := value.Row["authors_goadmin_join_first_name"].(string)
+		last, _ := value.Row["authors_goadmin_join_last_name"].(string)
+		return first + " " + last
 	})
 	info.AddField("AuthorFirstName", "first_name", db.Varchar).FieldJoin(types.Join{
 		Field:     "author_id",
@@ -52,7 +54,9 @@ func GetPostsTable(ctx *context.Context) (postsTable table.Table) {
 	formList.AddField("Title", "title", db.Varchar, form.Text)
 	formList.AddField("Description", "description", db.Varchar, form.Text)
 	formList.AddField("Content", "content", db.Varchar, form.RichText).FieldEnableFileUpload()
-	formList.AddField("Date", "date", db.Varchar, form.Datetime)
+	formList.AddField("Date", "date", db.Varchar, form.Date)
+
+	formList.EnableAjax("Success", "Fail")
 
 	formList.SetTable("posts").SetTitle("Posts").SetDescription("Posts")
 
