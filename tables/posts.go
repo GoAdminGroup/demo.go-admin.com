@@ -56,6 +56,28 @@ func GetPostsTable(ctx *context.Context) (postsTable table.Table) {
 	formList.AddField("Content", "content", db.Varchar, form.RichText).FieldEnableFileUpload()
 	formList.AddField("Date", "date", db.Varchar, form.Date)
 
+	formList.SetWrapper(func(content template2.HTML) template2.HTML {
+		tableContent := template.Default().Table().SetThead(types.Thead{
+			{Head: "Total amount of reading"},
+			{Head: "Total subscription amount"},
+			{Head: "Viewer Today"},
+			{Head: "New users"},
+			{Head: "Preserve rate"},
+		}).SetInfoList([]map[string]types.InfoItem{
+			{
+				"Total amount of reading": {Content: "1223"},
+				"amount":                  {Content: "1433"},
+				"Viewer Today":            {Content: "230"},
+				"New users":               {Content: "20"},
+				"Preserve rate":           {Content: "50%"},
+			},
+		}).GetContent()
+		return template.Default().Box().
+			SetBody(tableContent).
+			SetNoPadding().
+			WithHeadBorder().
+			GetContent() + content
+	})
 	formList.EnableAjax("Success", "Fail")
 
 	formList.SetTable("posts").SetTitle("Posts").SetDescription("Posts")
