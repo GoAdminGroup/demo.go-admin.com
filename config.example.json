@@ -19,5 +19,6 @@
   "language": "en",
   "index": "/",
   "debug": true,
+  "bootstrap_file_path": "./bootstrap.go",
   "theme": "sword"
 }

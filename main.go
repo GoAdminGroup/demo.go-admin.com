@@ -19,7 +19,6 @@ import (
 	"github.com/GoAdminGroup/demo_en/login"
 	"github.com/GoAdminGroup/demo_en/pages"
 	"github.com/GoAdminGroup/demo_en/tables"
-	"github.com/GoAdminGroup/filemanager"
 	adminContext "github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/engine"
 	"github.com/GoAdminGroup/go-admin/modules/config"
@@ -28,7 +27,6 @@ import (
 	"github.com/GoAdminGroup/go-admin/template/chartjs"
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/action"
-	"github.com/GoAdminGroup/librarian"
 	"github.com/gin-gonic/gin"
 )
 
@@ -94,22 +92,22 @@ func main() {
 	if err := eng.AddConfig(cfg).
 		AddGenerators(tables.Generators).
 		AddGenerator("user", tables.GetUserTable).
-		AddPlugins(filemanager.NewFileManagerWithConfig(filemanager.Config{
-			Path:          "/data/www/go-admin-en/fm_example",
-			AllowDelete:   false,
-			AllowUpload:   true,
-			AllowRename:   true,
-			AllowDownload: true,
-			AllowMove:     true,
-		}), librarian.NewLibrarianWithConfig(librarian.Config{
-			Path:      "/data/www/go-admin-en/fm_example/markdown",
-			BuildMenu: false,
-			Prefix:    "librarian",
-		})).
-		AddNavButtons("Website Info", "", action.PopUp("/website/info", "Website Info",
-			func(ctx *adminContext.Context) (success bool, msg string, data interface{}) {
-				return true, "ok", `<p>Created by <a href="https://github.com/chenhg5">cg33<a/></p>`
-			})).
+		//AddPlugins(filemanager.NewFileManagerWithConfig(filemanager.Config{
+		//	Path:          "/data/www/go-admin-en/fm_example",
+		//	AllowDelete:   false,
+		//	AllowUpload:   true,
+		//	AllowRename:   true,
+		//	AllowDownload: true,
+		//	AllowMove:     true,
+		//}), librarian.NewLibrarianWithConfig(librarian.Config{
+		//	Path:      "/data/www/go-admin-en/fm_example/markdown",
+		//	BuildMenu: false,
+		//	Prefix:    "librarian",
+		//})).
+		//AddNavButtons("Website Info", "", action.PopUp("/website/info", "Website Info",
+		//	func(ctx *adminContext.Context) (success bool, msg string, data interface{}) {
+		//		return true, "ok", `<p>Created by <a href="https://github.com/chenhg5">cg33<a/></p>`
+		//	})).
 		AddNavButtons("Manager", "", action.Jump("/admin/info/manager")).
 		Use(r); err != nil {
 		panic(err)
