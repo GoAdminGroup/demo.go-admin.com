@@ -26,7 +26,6 @@ import (
 	"github.com/GoAdminGroup/go-admin/template"
 	"github.com/GoAdminGroup/go-admin/template/chartjs"
 	"github.com/GoAdminGroup/go-admin/template/types"
-	"github.com/GoAdminGroup/go-admin/template/types/action"
 	"github.com/gin-gonic/gin"
 )
 
@@ -108,7 +107,7 @@ func main() {
 		//	func(ctx *adminContext.Context) (success bool, msg string, data interface{}) {
 		//		return true, "ok", `<p>Created by <a href="https://github.com/chenhg5">cg33<a/></p>`
 		//	})).
-		AddNavButtons("Manager", "", action.Jump("/admin/info/manager")).
+		//AddNavButtons("Manager", "", action.Jump("/admin/info/manager")).
 		Use(r); err != nil {
 		panic(err)
 	}
