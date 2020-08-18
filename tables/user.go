@@ -95,7 +95,7 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 	info.SetTable("users").SetTitle("Users").SetDescription("Users")
 
 	formList := userTable.GetForm()
-	formList.AddField("ID", "id", db.Int, form.Default).FieldNotAllowEdit().FieldNotAllowAdd()
+	formList.AddField("ID", "id", db.Int, form.Default).FieldDisplayButCanNotEditWhenUpdate().FieldNotAllowAdd()
 	formList.AddField("Ip", "ip", db.Varchar, form.Text)
 	formList.AddField("Name", "name", db.Varchar, form.Text)
 	formList.AddField("Gender", "gender", db.Tinyint, form.Radio).

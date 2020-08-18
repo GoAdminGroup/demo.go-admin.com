@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/GoAdminGroup/filemanager"
+	"github.com/GoAdminGroup/go-admin/plugins"
 	"log"
 	"net/http"
 	"os"
@@ -143,6 +145,14 @@ func main() {
 				"url": "/admin/info/profile",
 			},
 		})
+	})
+
+	plug, _ := plugins.FindByName("filemanager")
+	plug.(*filemanager.FileManager).SetPathValidator(func(path string) error {
+		if path != "/data/www/go-admin-en/fm_example" {
+			return errors.New("no permission")
+		}
+		return nil
 	})
 
 	srv := &http.Server{
