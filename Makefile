@@ -5,7 +5,7 @@ BINARY_NAME=go-admin-en
 all: deploy-test
 
 deploy-test:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o ./build/$(BINARY_NAME) -tags=jsoniter -v ./
+	GOOS=linux GOARCH=amd64 $(GOBUILD) -o ./build/$(BINARY_NAME) -tags=jsoniter -v ./
 	ansible-playbook -i ./deploy/hosts ./deploy/deploy.yml
 
 fmt:

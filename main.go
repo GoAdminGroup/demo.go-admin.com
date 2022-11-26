@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/GoAdminGroup/filemanager"
-	"github.com/GoAdminGroup/go-admin/plugins"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/GoAdminGroup/filemanager"
+	"github.com/GoAdminGroup/go-admin/plugins"
 
 	ada "github.com/GoAdminGroup/go-admin/adapter/gin"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/mysql"
@@ -90,7 +91,7 @@ func main() {
 		return values, nil
 	})
 
-	if err := eng.AddConfig(cfg).
+	if err := eng.AddConfig(&cfg).
 		AddGenerators(tables.Generators).
 		AddGenerator("user", tables.GetUserTable).
 		//AddPlugins(filemanager.NewFileManagerWithConfig(filemanager.Config{
