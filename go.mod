@@ -8,7 +8,7 @@ require (
 	github.com/GoAdminGroup/filemanager v0.0.7-0.20200920142100-04648eca30c9
 	github.com/GoAdminGroup/go-admin v1.2.24
 	github.com/GoAdminGroup/librarian v0.0.5
-	github.com/GoAdminGroup/themes v0.0.42
+	github.com/GoAdminGroup/themes v0.0.44
 	github.com/gavv/httpexpect v2.0.0+incompatible
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-echarts/go-echarts v0.0.0-20190915064101-cbb3b43ade5d
