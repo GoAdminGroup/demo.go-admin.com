@@ -1,6 +1,8 @@
 package tables
 
 import (
+	template2 "html/template"
+
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
@@ -8,13 +10,12 @@ import (
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 	editType "github.com/GoAdminGroup/go-admin/template/types/table"
-	template2 "html/template"
 )
 
 // GetPostsTable return the model of table posts.
 func GetPostsTable(ctx *context.Context) (postsTable table.Table) {
 
-	postsTable = table.NewDefaultTable(table.DefaultConfig().SetExportable(true))
+	postsTable = table.NewDefaultTable(ctx, table.DefaultConfig().SetExportable(true))
 
 	info := postsTable.GetInfo()
 	info.AddField("ID", "id", db.Int).FieldSortable()

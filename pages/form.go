@@ -2,6 +2,9 @@ package pages
 
 import (
 	"fmt"
+	"html/template"
+
+	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/config"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/modules/language"
@@ -11,12 +14,11 @@ import (
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 	"github.com/gin-gonic/gin"
-	"html/template"
 )
 
 func GetForm1Content(ctx *gin.Context) (types.Panel, error) {
 
-	components := template2.Get(config.GetTheme())
+	components := template2.Get(context.NewContext(ctx.Request), config.GetTheme())
 
 	col1 := components.Col().GetContent()
 	btn1 := components.Button().SetType("submit").

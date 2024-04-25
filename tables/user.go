@@ -2,6 +2,7 @@ package tables
 
 import (
 	"fmt"
+
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	form2 "github.com/GoAdminGroup/go-admin/plugins/admin/modules/form"
@@ -17,7 +18,7 @@ import (
 // GetUserTable return the model of table user.
 func GetUserTable(ctx *context.Context) (userTable table.Table) {
 
-	userTable = table.NewDefaultTable(table.Config{
+	userTable = table.NewDefaultTable(ctx, table.Config{
 		Driver:     db.DriverMysql,
 		CanAdd:     true,
 		Editable:   true,
@@ -52,7 +53,7 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 	info.AddColumn("personality", func(value types.FieldModel) interface{} {
 		return "handsome"
 	})
-	info.AddColumnButtons("see more", types.GetColumnButton("more", icon.Info,
+	info.AddColumnButtons(ctx, "see more", types.GetColumnButton("more", icon.Info,
 		action.PopUp("/see/more/example", "Detail", func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "ok", "<h1>Detail</h1><p>balabala</p><p>this feature will be released in v1.2.7</p>"
 		})))
@@ -67,27 +68,27 @@ func GetUserTable(ctx *context.Context) (userTable table.Table) {
 		FieldFilterable(types.FilterType{FormType: form.DatetimeRange})
 	info.AddField("UpdatedAt", "updated_at", db.Timestamp).FieldEditAble(editType.Datetime)
 
-	info.AddActionButton("google", action.Jump("https://google.com"))
-	info.AddActionButton("audit", action.Ajax("/admin/audit",
+	info.AddActionButton(ctx, "google", action.Jump("https://google.com"))
+	info.AddActionButton(ctx, "audit", action.Ajax("/admin/audit",
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "success", ""
 		}))
-	info.AddActionButton("Preview", action.PopUp("/admin/preview", "Preview",
+	info.AddActionButton(ctx, "Preview", action.PopUp("/admin/preview", "Preview",
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "", "<h2>hello world</h2>"
 		}))
-	info.AddButton("google", icon.Google, action.Jump("https://google.com"))
-	info.AddButton("popup", icon.Terminal, action.PopUp("/admin/popup", "Popup Example",
+	info.AddButton(ctx, "google", icon.Google, action.Jump("https://google.com"))
+	info.AddButton(ctx, "popup", icon.Terminal, action.PopUp("/admin/popup", "Popup Example",
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "", "<h2>hello world</h2>"
 		}))
-	info.AddButton("iframe", icon.Tv, action.PopUpWithIframe("/admin/iframe", "Iframe Example",
+	info.AddButton(ctx, "iframe", icon.Tv, action.PopUpWithIframe("/admin/iframe", "Iframe Example",
 		action.IframeData{Src: "/admin/info/profile/new"}, "900px", "600px"))
-	info.AddButton("ajax", icon.Android, action.Ajax("/admin/ajax",
+	info.AddButton(ctx, "ajax", icon.Android, action.Ajax("/admin/ajax",
 		func(ctx *context.Context) (success bool, msg string, data interface{}) {
 			return true, "success", ""
 		}))
-	info.AddSelectBox("gender", types.FieldOptions{
+	info.AddSelectBox(ctx, "gender", types.FieldOptions{
 		{Value: "0", Text: "men"},
 		{Value: "1", Text: "women"},
 	}, action.FieldFilter("gender"))
