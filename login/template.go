@@ -82,10 +82,10 @@ var List = map[string]string{"login/theme1": `{{define "login_theme1"}}
         </script>
     </div>
 
-    <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+    <script src="https://turing.captcha.qcloud.com/TCaptcha.js"></script>
     <script>
 
-        let captcha = new TencentCaptcha("2011139405", function (res) {
+        let captcha = new TencentCaptcha("194907698", function (res) {
             console.log(res);
             // res（用户主动关闭验证码）= {ret: 2, ticket: null}
             // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
@@ -108,12 +108,12 @@ var List = map[string]string{"login/theme1": `{{define "login_theme1"}}
                     }
                 });
             } else {
-                alert("Auth failed")
+                alert("验证失败")
             }
         }, {});
 
         function submitData() {
-            captcha.show()
+            captcha.show();
         }
     </script>
 
