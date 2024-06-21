@@ -249,7 +249,7 @@ VALUES
 	(12,0,0,11,'Echarts',NULL,'fa-area-chart','',NULL,'/echarts','2019-09-12 07:16:32','2019-09-12 07:16:32'),
 	(13,0,0,12,'File Manager','Plugins','fa-file-o','',NULL,'/fm/def/list','2019-09-12 07:16:32','2019-09-12 07:16:32'),
 	(14,0,0,13,'Official Website','GoAdmin','fa-home','',NULL,'https://www.go-admin.com','2019-09-12 07:16:32','2019-09-12 07:16:32'),
-	(15,0,0,14,'Document','','fa-book','',NULL,'https://www.go-admin.com/docs/#/','2019-09-12 07:16:32','2019-09-12 07:16:32'),
+	(15,0,0,14,'Document','','fa-book','',NULL,'https://book.go-admin.cn/en','2019-09-12 07:16:32','2019-09-12 07:16:32'),
 	(16,0,0,10,'Table','','fa-table','',NULL,'/table','2019-12-11 14:15:42','2019-12-11 14:15:42'),
 	(17,0,0,15,'BUG Feedback','','fa-bug','',NULL,'https://git.io/Je9rq','2019-09-12 07:16:32','2019-09-12 07:16:32'),
 	(18,0,0,7,'Example','','fa-align-center','',NULL,'','2019-12-11 14:15:42','2019-12-11 14:15:42'),
